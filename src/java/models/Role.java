@@ -5,19 +5,37 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  *
  * @author Meron Seyoum
  */
+@Entity
+@Table(name="role")
+@NamedQueries({
+    @NamedQuery(name="Role.findAll", query = "Select r from Role r")   
+    })
 public class Role implements Serializable {
-
+    @Id
+    @Basic(optional = false)
+    @Column(name="role_id")
     private int role_id;
+
+    @Column(name="role_name")
     private String role_name;
 
-    public Role(int role_id, String role_name) {
+    @OneToMany
+    private List<User> user;
+
+    public Role() {
+    }
+
+    public Role(int role_id, String role_name, List<User> user) {
         this.role_id = role_id;
         this.role_name = role_name;
+        this.user = user;
     }
 
     public Role(int role_id) {

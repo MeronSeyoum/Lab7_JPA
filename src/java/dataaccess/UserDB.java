@@ -31,7 +31,7 @@ public class UserDB {
     }
 
     public User get(String email) throws Exception {
-       
+
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
 
         try {
@@ -42,23 +42,7 @@ public class UserDB {
         }
     }
 
-    public void insert(User user) throws Exception {
-        EntityManager em = DBUtil.getEmFactory().createEntityManager();
-        EntityTransaction trans = em.getTransaction();
-
-        try {
-            trans.begin();
-            em.persist(user);
-            em.merge(user);
-            trans.commit();  
-        } catch (Exception ex) {
-            trans.rollback();
-        } finally {
-            em.close();
-        }
-    }
-
-    public void update(User user) throws Exception {
+    public boolean insert(User user) throws Exception {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
 
@@ -67,23 +51,45 @@ public class UserDB {
             em.persist(user);
             em.merge(user);
             trans.commit();
+            return true;
         } catch (Exception ex) {
             trans.rollback();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean update(User user) throws Exception {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+
+        try {
+            trans.begin();
+            em.persist(user);
+            em.merge(user);
+            trans.commit();
+            return true;
+        } catch (Exception ex) {
+            trans.rollback();
+            return false;
         } finally {
             em.close();
         }
     }
 
     public void delete(User user) throws Exception {
-       EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        
+
         try {
             trans.begin();
             em.remove(em.merge(user));
             trans.commit();
+           
         } catch (Exception ex) {
             trans.rollback();
+            
         } finally {
             em.close();
         }

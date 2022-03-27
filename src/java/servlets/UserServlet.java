@@ -93,30 +93,30 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 // using the if conditon manipulate the data using CRUD operation
-        if (actions.equals("add")) {
+        if (actions != null && actions.equals("add")) {
             try {
                 userservice.insert(email, Boolean.parseBoolean(active), first_name, last_name, password, roles);
                 request.setAttribute("message", "User " + first_name + " has Successfully Added");
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (actions.equals("edit")) {
+        } else if (actions != null && actions.equals("edit")) {
             try {
                 userservice.update(email, Boolean.parseBoolean(active), first_name, last_name, password, roles);
                 request.setAttribute("message", "User " + first_name + " has been Successfully Updated");
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (actions.equals("delete")) {
+        } else if (actions != null && actions.equals("delete")) {
 
             try {
-                userservice.delete(email);
+                 userservice.delete(email);
                 request.setAttribute("message", "User " + first_name + " has been deleted.");
 
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (actions.equals("cancle")){
+        } else if (actions != null && actions.equals("cancle")){
 // on cancle redirect to view
             try {
                 List<User> users = userservice.getAll();
